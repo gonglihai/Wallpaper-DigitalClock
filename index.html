@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .fade {
+      position: absolute;
+      left: 0;
+      top: 0;
+      animation: fade 5s;
+      user-select: none;
+      animation-fill-mode: forwards;
+      animation-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
+      --scale: attr(scale);
+      --rotate: attr(rotate);
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0.8;
+        transform: translateY(0);
+      }
+
+      to {
+        opacity: 0;
+        transform: translateY(var(--translateY)) scale(var(--scale)) rotate(var(--rotate));
+      }
+    }
+
+    html {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .custom-var {
+      background-color: var(--background-color);
+      background-image: var(--background-img);
+      color: var(--color);
+      font-size: var(--font-size);
+    }
+
+    .clock {
+      display: flex;
+    }
+
+    .clock>div {
+      position: relative;
+      z-index: 10;
+    }
+
+    .delimiter {
+      padding: 0 4px;
+    }
+  </style>
+</head>
+
+<body class="custom-var">
+  <div class="clock">
+    <div id="hour" class="clock-hour">
+      <div id="hourCur">00</div>
+    </div>
+    <sapn class="delimiter">:</sapn>
+    <div id="min" class="clock-min">
+      <div id="minCur">00</div>
+    </div>
+    <sapn class="delimiter">:</sapn>
+    <div id="sec" class="clock-src">
+      <div id="secCur">00</div>
+    </div>
+  </div>
+  <style id="cssStyle"></style>
+  <script>
+
+    var SOURCE = {
+      now: {
+        hour: 0,
+        min: 0,
+        sec: 0
+      },
+      ele: {
+        hour: document.querySelector("#hourCur"),
+        min: document.querySelector("#minCur"),
+        sec: document.querySelector("#secCur")
+      },
+      eleParent: {
+        hour: document.querySelector("#hour"),
+        min: document.querySelector("#min"),
+        sec: document.querySelector("#sec")
+      },
+      timer: null,
+      translateY: 250,
+      scale: 1,
+      rotate: 360
+    };
+    start();
+
+    window.wallpaperPropertyListener = {
+      setPaused(isPaused) {
+        if (isPaused) {
+          clearInterval(SOURCE.timer);
+        } else {
+          start();
+        }
+      },
+      applyUserProperties(properties) {
+        const bodyStyle = document.body.style;
+        if (properties.background) bodyStyle.setProperty('--background-color', colorProp(properties.background, '#222f3e'));
+        if (properties.color) bodyStyle.setProperty('--color', colorProp(properties.color, '#b2bec3'));
+        if (properties.fontsize) bodyStyle.setProperty('--font-size', sliderProp(properties.fontsize, 70) + 'px');
+        if (properties.backgroundimg) bodyStyle.setProperty('--background-img', fileProp(properties.backgroundimg));
+        if (properties.translatey) SOURCE.translateY = sliderProp(properties.translatey, 250);
+        if (properties.scale) SOURCE.scale = sliderProp(properties.scale, 1)
+        if (properties.rotate) SOURCE.rotate = sliderProp(properties.rotate, 180);
+        if (properties.css) document.getElementById("cssStyle").innerHTML = sliderProp(properties.css, "");
+      }
+    }
+
+    function fileProp(prop, def) {
+      if (!prop) {
+        return def;
+      }
+      return "url('file:///" + prop.value + "')";
+    }
+
+    function sliderProp(prop, def) {
+      if (!prop) {
+        return def;
+      }
+      return prop.value;
+    }
+
+    function colorProp(prop, def) {
+      if (!prop) {
+        return def;
+      }
+      let r = prop.value.split(' ');
+      r = r.map((c) => Math.ceil(c * 255));
+      return 'rgb(' + r + ')';
+    }
+
+    function start() {
+      SOURCE.timer = setInterval(() => {
+        const n = new Date();
+        change("hour", n.getHours());
+        change("min", n.getMinutes());
+        change("sec", n.getSeconds());
+      }, 1000);
+    }
+
+    function change(eleId, val) {
+      if (SOURCE.now[eleId] == val) {
+        return;
+      }
+      SOURCE.ele[eleId].innerText = padZero(val);
+      const feadDiv = createFeadDiv(SOURCE.now[eleId]);
+      SOURCE.now[eleId] = val;
+      SOURCE.eleParent[eleId].appendChild(feadDiv);
+      setTimeout(() => {
+        SOURCE.eleParent[eleId].removeChild(feadDiv);
+      }, 5000);
+    }
+
+    function createFeadDiv(val) {
+      const div = document.createElement("div");
+      div.className = "fade";
+      div.innerText = padZero(val);
+      div.style.setProperty('--translateY', Math.random() * 30 - SOURCE.translateY + 'px');
+      div.style.setProperty('--scale', SOURCE.scale + parseFloat(Number(Math.random() * 1).toFixed(2)));
+      div.style.setProperty('--rotate', Math.random() * SOURCE.rotate - SOURCE.rotate / 2 + 'deg');
+      return div;
+    }
+
+    function padZero(val) {
+      if (val < 10) {
+        return '0' + val;
+      }
+      return val;
+    }
+  </script>
+</body>
+
+</html>

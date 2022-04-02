@@ -1,0 +1,100 @@
+{
+	"contentrating" : "Everyone",
+	"file" : "index.html",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"background" : 
+			{
+				"index" : 1,
+				"order" : 101,
+				"text" : "background",
+				"type" : "color",
+				"value" : "0.13333333333333333 0.1843137254901961 0.24313725490196078"
+			},
+			"backgroundimg" : 
+			{
+				"index" : 2,
+				"order" : 102,
+				"text" : "backgroundImg",
+				"type" : "file",
+				"value" : ""
+			},
+			"color" : 
+			{
+				"index" : 0,
+				"order" : 100,
+				"text" : "color",
+				"type" : "color",
+				"value" : "0.6980392156862745 0.7450980392156863 0.7647058823529411"
+			},
+			"css" : 
+			{
+				"index" : 7,
+				"order" : 107,
+				"text" : "css",
+				"type" : "textinput",
+				"value" : ""
+			},
+			"fontsize" : 
+			{
+				"fraction" : false,
+				"index" : 3,
+				"max" : 200,
+				"min" : 12,
+				"order" : 103,
+				"text" : "fontSize",
+				"type" : "slider",
+				"value" : 70
+			},
+			"rotate" : 
+			{
+				"fraction" : false,
+				"index" : 6,
+				"max" : 720,
+				"min" : -720,
+				"order" : 106,
+				"text" : "rotate",
+				"type" : "slider",
+				"value" : 360
+			},
+			"scale" : 
+			{
+				"fraction" : false,
+				"index" : 5,
+				"max" : 5,
+				"min" : -5,
+				"order" : 105,
+				"text" : "scale",
+				"type" : "slider",
+				"value" : 1
+			},
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0 0 0"
+			},
+			"translatey" : 
+			{
+				"fraction" : false,
+				"index" : 4,
+				"max" : 500,
+				"min" : -500,
+				"order" : 104,
+				"text" : "translateY",
+				"type" : "slider",
+				"value" : 250
+			}
+		}
+	},
+	"preview" : "preview.gif",
+	"tags" : [ "Abstract" ],
+	"title" : "DigitalClock 数字时钟",
+	"type" : "web",
+	"version" : 1,
+	"workshopid" : "2788159499",
+	"workshopurl" : "steam://url/CommunityFilePage/2788159499"
+}
